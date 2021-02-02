@@ -7,13 +7,17 @@ on:
 
 jobs:
   sonarCloudTrigger:
-    name: SonarCloud Trigger
+    name: GitHub Action
     runs-on: ubuntu-latest
     steps:
-    - name: SonarCloud Trigger
-      uses: actions/checkout@v2
-    - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: SonarCloud Trigger
+        uses: actions/checkout@v2
+      - name: GitHub Action for pytest
+        uses: cclauss/GitHub-Action-for-pytest@master
+        with:
+            args: python setup.py develop && pytest
+      - name: Analyze with SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
